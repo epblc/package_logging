@@ -1,6 +1,6 @@
 import { throttle, isBrowser } from './shared.js'
 
-const LOG_LEVEL = 'info' // 'info', 'warn', 'error'
+const LOG_LEVEL = process.env.LOG_LEVEL || 'info' // 'info', 'warn', 'error'
 
 const NO_OP = () => { }
 
