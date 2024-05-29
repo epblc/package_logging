@@ -1,4 +1,4 @@
-import { throttle, isBrowser } from './shared'
+import { throttle, isBrowser } from './shared.js'
 
 const LOG_LEVEL = 'info' // 'info', 'warn', 'error'
 
