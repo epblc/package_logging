@@ -1,6 +1,6 @@
 {
   "name": "epblc_logging",
-  "type":"module",
+  "type": "module",
   "version": "1.0.3",
   "description": "Logging for epblc use.",
   "main": "index.js",
