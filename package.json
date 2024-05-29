@@ -1,0 +1,11 @@
+{
+  "name": "epblc_logging",
+  "version": "1.0.0",
+  "description": "Logging for epblc use.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "author": "Albert Sikkema",
+  "license": "ISC"
+}
