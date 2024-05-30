@@ -1,5 +1,5 @@
 //index.js
-const { logger, backendlogger } = require('./src/logger.js');
-const { getInfoApi, getInfoFrontend } = require('./src/shared.js');
+import {logger, backendlogger} from './src/logger.js'
+import {getInfoApi, getInfoFrontend} from './src/shared.js'
 
-export { logger, backendlogger, getInfoApi, getInfoFrontend } 
+export { logger, backendlogger, getInfoApi, getInfoFrontend} 
