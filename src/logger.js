@@ -41,7 +41,7 @@ export class Logger {
           message,
           timestamp: timestamp(),
           called,
-          source: isBrowser ? 'client' : 'server',
+          source: isBrowser ? 'client' : `server - ${process.env.SERVERID}`,
           props: argsProps,
         }
         this.logEvents.push(data)
