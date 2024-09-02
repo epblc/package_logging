@@ -42,7 +42,7 @@ export class Logger {
           timestamp: timestamp(),
           called,
           source: isBrowser ?  'client' : 'server',
-          host: process.env.SERVERID,
+          serverid: process.env.SERVERID,
           props: argsProps,
         }
         this.logEvents.push(data)
@@ -84,7 +84,7 @@ export class Logger {
           timestamp: timestamp(),
           called,
           source: isBrowser ?  'client' : 'server',
-          host: process.env.SERVERID,
+          serverid: process.env.SERVERID,
           props: argsProps,
         }
         this.logEvents.push(data)
@@ -119,7 +119,7 @@ export class Logger {
           time: timestamp(),
           called,
           source: isBrowser ?  'client' : 'server',
-          host: process.env.SERVERID,
+          serverid: process.env.SERVERID,
           props: argsProps,
         }
         this.logEvents.push(data)
