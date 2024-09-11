@@ -31,24 +31,23 @@ export class Logger {
             argsProps = { ...argsProps, ...obj } // Merge each object into argsProps
           }
         }
-        // get orginal line and file name
-        let called = null;
+      // get orginal line and file name
+      let called = null;
 
-        try {
-          const error = new Error();
-          const stack = error.stack.split('\n')[2].trim();
-          const regex = /\((.*?)\)/;
-          const matchResult = stack.match(regex);
-        
-          if (matchResult) {
-            called = matchResult[1];
-          }
-        } catch (error) {
-          // Handle the error gracefully or log it, if needed
-          console.error(error);
+      // throw an error to get the stack trace and extract the file name and line number
+      // does not work in safari, therefore a try catch block is used
+      try {
+        const error = new Error();
+        const stack = error.stack.split('\n')[2].trim();
+        const regex = /\((.*?)\)/;
+        const matchResult = stack.match(regex);
+      
+        if (matchResult) {
+          called = matchResult[1];
         }
-        
-        console.log(called);
+      } catch (error) {
+        // Handle the error gracefully or log it, if needed
+      }
         // construct a json to send to the server
         const data = {
           level: 'error',
@@ -88,24 +87,24 @@ export class Logger {
             argsProps = { ...argsProps, ...obj } // Merge each object into argsProps
           }
         }
-        // get orginal line and file name
-        let called = null;
+      // get orginal line and file name
+      let called = null;
 
-        try {
-          const error = new Error();
-          const stack = error.stack.split('\n')[2].trim();
-          const regex = /\((.*?)\)/;
-          const matchResult = stack.match(regex);
-        
-          if (matchResult) {
-            called = matchResult[1];
-          }
-        } catch (error) {
-          // Handle the error gracefully or log it, if needed
-          console.error(error);
+      // throw an error to get the stack trace and extract the file name and line number
+      // does not work in safari, therefore a try catch block is used
+      try {
+        const error = new Error();
+        const stack = error.stack.split('\n')[2].trim();
+        const regex = /\((.*?)\)/;
+        const matchResult = stack.match(regex);
+      
+        if (matchResult) {
+          called = matchResult[1];
         }
-        
-        console.log(called);
+      } catch (error) {
+        // Handle the error gracefully or log it, if needed
+      }
+     
         const data = {
           level: 'warn',
           message,
@@ -140,9 +139,10 @@ export class Logger {
         // get orginal line and file name
         let called = null;
 
+        // throw an error to get the stack trace and extract the file name and line number
+        // does not work in safari, therefore a try catch block is used
         try {
           const error = new Error();
-          console.error('error =', error);
           const stack = error.stack.split('\n')[2].trim();
           const regex = /\((.*?)\)/;
           const matchResult = stack.match(regex);
@@ -152,10 +152,9 @@ export class Logger {
           }
         } catch (error) {
           // Handle the error gracefully or log it, if needed
-          console.error(error);
+
         }
         
-        console.log(called);
         const data = {
           level: 'info',
           message,
