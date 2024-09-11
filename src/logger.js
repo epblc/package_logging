@@ -32,11 +32,23 @@ export class Logger {
           }
         }
         // get orginal line and file name
-        const error = new Error()
-        const stack = error.stack.split('\n')[2].trim()
-        const regex = /\((.*?)\)/;
-        const matchResult = stack.match(regex);
-        const called = matchResult ? matchResult[1] : null;
+        let called = null;
+
+        try {
+          const error = new Error();
+          const stack = error.stack.split('\n')[2].trim();
+          const regex = /\((.*?)\)/;
+          const matchResult = stack.match(regex);
+        
+          if (matchResult) {
+            called = matchResult[1];
+          }
+        } catch (error) {
+          // Handle the error gracefully or log it, if needed
+          console.error(error);
+        }
+        
+        console.log(called);
         // construct a json to send to the server
         const data = {
           level: 'error',
@@ -77,11 +89,23 @@ export class Logger {
           }
         }
         // get orginal line and file name
-        const error = new Error()
-        const stack = error.stack.split('\n')[2].trim()
-        const regex = /\((.*?)\)/;
-        const matchResult = stack.match(regex);
-        const called = matchResult ? matchResult[1] : null;
+        let called = null;
+
+        try {
+          const error = new Error();
+          const stack = error.stack.split('\n')[2].trim();
+          const regex = /\((.*?)\)/;
+          const matchResult = stack.match(regex);
+        
+          if (matchResult) {
+            called = matchResult[1];
+          }
+        } catch (error) {
+          // Handle the error gracefully or log it, if needed
+          console.error(error);
+        }
+        
+        console.log(called);
         const data = {
           level: 'warn',
           message,
@@ -114,11 +138,23 @@ export class Logger {
         }
 
         // get orginal line and file name
-        const error = new Error()
-        const stack = error.stack.split('\n')[2].trim()
-        const regex = /\((.*?)\)/;
-        const matchResult = stack.match(regex);
-        const called = matchResult ? matchResult[1] : null;
+        let called = null;
+
+        try {
+          const error = new Error();
+          const stack = error.stack.split('\n')[2].trim();
+          const regex = /\((.*?)\)/;
+          const matchResult = stack.match(regex);
+        
+          if (matchResult) {
+            called = matchResult[1];
+          }
+        } catch (error) {
+          // Handle the error gracefully or log it, if needed
+          console.error(error);
+        }
+        
+        console.log(called);
         const data = {
           level: 'info',
           message,
