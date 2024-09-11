@@ -42,6 +42,7 @@ export class Logger {
           message,
           timestamp: timestamp(),
           called,
+          stack,
           source: isBrowser ?  'client' : 'server',
           serverid: process.env.SERVERID,
           props: argsProps,
