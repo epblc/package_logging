@@ -142,6 +142,7 @@ export class Logger {
 
         try {
           const error = new Error();
+          console.error('error =', error);
           const stack = error.stack.split('\n')[2].trim();
           const regex = /\((.*?)\)/;
           const matchResult = stack.match(regex);
