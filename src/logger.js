@@ -34,7 +34,8 @@ export class Logger {
         // get orginal line and file name
         const error = new Error()
         const stack = error.stack.split('\n')[2].trim()
-        const matchResult = stack.match(/:\/{3}(.*)$/);
+        const regex = /\((.*?)\)/;
+        const matchResult = stack.match(regex);
         const called = matchResult ? matchResult[1] : null;
         // construct a json to send to the server
         const data = {
@@ -79,7 +80,8 @@ export class Logger {
         // get orginal line and file name
         const error = new Error()
         const stack = error.stack.split('\n')[2].trim()
-        const matchResult = stack.match(/:\/{3}(.*)$/);
+        const regex = /\((.*?)\)/;
+        const matchResult = stack.match(regex);
         const called = matchResult ? matchResult[1] : null;
         const data = {
           level: 'warn',
@@ -116,7 +118,8 @@ export class Logger {
         // get orginal line and file name
         const error = new Error()
         const stack = error.stack.split('\n')[2].trim()
-        const matchResult = stack.match(/:\/{3}(.*)$/);
+        const regex = /\((.*?)\)/;
+        const matchResult = stack.match(regex);
         const called = matchResult ? matchResult[1] : null;
         const data = {
           level: 'info',
