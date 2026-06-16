@@ -214,7 +214,7 @@ export class BackEndLogger extends Logger {
     const body = JSON.stringify(this.logEvents)
     this.logEvents = []
     try {
-      await fetch(`${this.axiomUrl}/v1/datasets/${process.env.AXIOM_DATASET}/ingest`, {
+      await fetch(`${this.axiomUrl}/v1/ingest/${process.env.AXIOM_DATASET}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
