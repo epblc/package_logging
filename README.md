@@ -1,68 +1,89 @@
+# epblc_logging
 
+Logging package for frontend and backend JS/Node apps. Logs to console locally, sends to [Axiom](https://axiom.co) in deployed environments. Throttled batching, automatic caller info extraction, and request metadata helpers included.
 
-# Logger Module
-
-This module provides a flexible logging mechanism for both frontend and backend environments. It allows logging messages with different log levels (`info`, `warn`, `error`) and sends logs to the console and/or server based on the environment settings.
-
-## Installation
-
-To install the Logger module, you can use npm or yarn:
+## Install
 
 ```bash
 npm install epblc_logging
-# or
-yarn add epblc_logging
 ```
 
-## Usage
+## Quick start
 
 ```javascript
-import { logger, backendlogger } from 'epblc_logging';
+import { logger, backendlogger } from 'epblc_logging'
 
-// Log an info message
-logger.info('This is an info message');
-
-// Log a warning message with additional properties
-logger.warn('This is a warning message', { additionalInfo: 'some info' });
-
-// Log an error message
-logger.error('This is an error message');
-
-// Use backendlogger to send logs to the server
-backendlogger.info('Sending info log to the server');
+logger.info('page loaded')
+logger.warn('slow query', { duration: 1200 })
+logger.error('payment failed', { orderId: 'abc-123' })
 ```
 
-## Configuration
+- `logger` -- `FrontEndLogger`. Sends batched logs to `/log` via `sendBeacon` (falls back to `fetch`). Use in browser code.
+- `backendlogger` -- `BackEndLogger`. Sends batched logs directly to the Axiom ingest API. Use in Node/server code.
 
-The Logger module supports the following configuration options:
+Both throttle sends to 1 per second.
 
-- **LOG_LEVEL**: Default log level (`info`, `warn`, `error`).
-- **NEXT_PUBLIC_ENV**: Environment variable indicating the environment (e.g., `local`, `production` etc.).
-- **LOG_TO_CONSOLE**: If 'local' output is sent to the console.
-- **LOG_TO_SERVER**: If not 'local' output is sent to the server endpoint.
-- **AXIOM_URL**: URL of the server to which logs will be sent.
-- **AXIOM_TOKEN**: Token for authorization when sending logs to the server.
-- **AXIOM_DATASET**: Dataset identifier for categorizing logs on the server.
+## Exports
 
-## Classes
+| Export | Type | Description |
+|--------|------|-------------|
+| `logger` | `FrontEndLogger` | Pre-configured browser logger |
+| `backendlogger` | `BackEndLogger` | Pre-configured server logger |
+| `getInfoApi(request)` | function | Extract request metadata (IP hash, user-agent, path, query) for API logging |
+| `getInfoFrontend({ session })` | function | Extract user/page info for frontend event logging |
 
-### Logger
+### getInfoApi
 
-The `Logger` class provides basic logging functionality with different log levels.
+Extracts IP (hashed daily with SHA-256), user-agent, path, query, and other headers from an API request object. Useful for structured API access logs:
 
-### FrontEndLogger
+```javascript
+logger.info('api - users', { info: getInfoApi(req), statusCode: 200 })
+```
 
-The `FrontEndLogger` class extends `Logger` and provides additional functionality for sending logs from the frontend to the server.
+### getInfoFrontend
 
-### BackEndLogger
+Extracts user email from session and current page URL:
 
-The `BackEndLogger` class extends `Logger` and provides additional functionality for sending logs from the backend to the server.
+```javascript
+logger.info('button clicked', { info: getInfoFrontend({ session }) })
+```
 
-## Contributing
+## Environment variables
 
-Contributions are welcome! Please feel free to submit issues and pull requests.
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `AXIOM_TOKEN` | Yes (server) | Axiom API bearer token |
+| `AXIOM_DATASET` | Yes (server) | Axiom dataset name |
+| `AXIOM_URL` | No | Axiom API base URL (default: `https://api.eu.axiom.co`) |
+| `NEXT_PUBLIC_ENV` | Yes | `local` for console output, anything else for server output |
+| `LOG_LEVEL` | No | Minimum log level: `info` (default), `warn`, or `error` |
+| `SERVERID` | No | Server identifier attached to log events |
+| `CUSTOMER_NAME` | No | Customer name for API info metadata |
+| `URL` | No | Host URL for API info metadata |
+
+## How it works
+
+1. Each log call (`info`/`warn`/`error`) pushes a structured event to an internal buffer
+2. A throttled flush sends the buffer contents at most once per second
+3. Frontend logger posts to `/log` (expects a server-side proxy to forward to Axiom)
+4. Backend logger posts directly to Axiom's `/v1/ingest/{dataset}` endpoint
+5. When `NEXT_PUBLIC_ENV=local`, logs go to console only (with colored prefixes)
+
+## Publishing
+
+```bash
+npm login
+npm publish
+```
+
+Version is in `package.json`. Bump it before publishing:
+
+```bash
+npm version patch   # 1.0.23 -> 1.0.24
+npm version minor   # 1.0.23 -> 1.1.0
+npm version major   # 1.0.23 -> 2.0.0
+```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+MIT -- see [LICENSE](LICENSE).
